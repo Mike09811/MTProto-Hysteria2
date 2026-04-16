@@ -14,5 +14,15 @@ read -p "Hy2 pass: " HYPASS
 SEC=$(openssl rand -hex 16)
 echo "Secret: $SEC"
 certbot certonly --standalone -d $DOMAIN -n --agree-tos --register-unsafely-without-email
-cp /etc/letsencrypt/live/$DOMAIN/fullchain.pem certs/
-cp /etc/letsencrypt/live/$DOMAIN/privkey.pem certs/
+cp /etc/letsencrypt/live/$DOMAIN/fullchain.pem $BD/certs/
+cp /etc/letsencrypt/live/$DOMAIN/privkey.pem $BD/certs/
+sed -i "s|CHANGE_ME_HY2_PASSWORD|$HYPASS|g" $BD/hy2-config/config.yaml
+sed -i "s|SECRET_COUNT=1|SECRET_COUNT=1\n      - SECRET=$SEC|g" $BD/docker-compose.yml
+cd $BD
+docker compose up -d
+echo "===== Setup Complete ====="
+echo "Domain: $DOMAIN"
+echo "Hy2 Password: $HYPASS"
+echo "MTProto Secret: $SEC"
+echo "Telegram Proxy: 127.0.0.1:8443"
+echo "MTProto Link: tg://proxy?server=127.0.0.1&port=8443&secret=$SEC"
