@@ -4,7 +4,7 @@ tls:
   key: /certs/privkey.pem
 auth:
   type: password
-  password: CHANGE_ME_HY2_PASSWORD
+  password: Dashabi123@
 masquerade:
   type: proxy
   proxy:
@@ -13,6 +13,6 @@ masquerade:
 bandwidth:
   up: 100 mbps
   down: 100 mbps
-tcpForwarding:
-  - listen: 127.0.0.1:8443
-    remote: mtproxy:443
+transport:
+  udp:
+    hopInterval: 30s
