@@ -11,7 +11,7 @@ cd $BD
 mkdir -p $BD/certs $BD/mtproxy-data $BD/hy2-config
 read -p "Domain: " DOMAIN
 read -p "Hy2 pass: " HYPASS
-SEC=$(head -c 16 /dev/urandom | xxd -p)
+SEC=$(openssl rand -hex 16)
 echo "Secret: $SEC"
 certbot certonly --standalone -d $DOMAIN -n --agree-tos --register-unsafely-without-email
 cp /etc/letsencrypt/live/$DOMAIN/fullchain.pem certs/
