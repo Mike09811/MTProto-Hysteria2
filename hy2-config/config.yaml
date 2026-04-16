@@ -13,3 +13,6 @@ masquerade:
 bandwidth:
   up: 1 gbps
   down: 1 gbps
+transport:
+  udp:
+    hopInterval: 30s

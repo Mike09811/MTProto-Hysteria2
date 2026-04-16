@@ -17,7 +17,7 @@ certbot certonly --standalone -d $DOMAIN -n --agree-tos --register-unsafely-with
 cp /etc/letsencrypt/live/$DOMAIN/fullchain.pem $BD/certs/
 cp /etc/letsencrypt/live/$DOMAIN/privkey.pem $BD/certs/
 sed -i "s|CHANGE_ME_HY2_PASSWORD|$HYPASS|g" $BD/hy2-config/config.yaml
-sed -i "s|SECRET_COUNT=1|SECRET_COUNT=1\n      - SECRET=$SEC|g" $BD/docker-compose.yml
+sed -i "s|CHANGE_ME_SECRET|$SEC|g" $BD/docker-compose.yml
 cd $BD
 docker compose up -d
 echo "===== Setup Complete ====="

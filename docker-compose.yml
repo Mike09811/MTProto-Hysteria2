@@ -5,12 +5,13 @@ services:
     image: telegrammessenger/proxy:latest
     container_name: mtproxy
     restart: always
-    expose:
-      - "443"
+    ports:
+      - "8443:443"
     volumes:
       - ./mtproxy-data:/data
     environment:
       - SECRET_COUNT=1
+      - SECRET=CHANGE_ME_SECRET
     networks:
       proxy-net:
         aliases:
