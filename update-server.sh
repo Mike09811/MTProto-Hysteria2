@@ -1,3 +1,7 @@
+#!/bin/bash
+cd /opt/mtproto-hy2
+
+cat > docker-compose.yml << 'EOF'
 version: "3.8"
 
 services:
@@ -5,16 +9,13 @@ services:
     image: telegrammessenger/proxy:latest
     container_name: mtproxy
     restart: always
-    expose:
-      - "443"
+    ports:
+      - "127.0.0.1:8443:443"
     volumes:
       - ./mtproxy-data:/data
     environment:
       - SECRET=${SECRET}
-    networks:
-      proxy-net:
-        aliases:
-          - mtproxy
+    network_mode: host
 
   hysteria2:
     image: tobyxdd/hysteria:v2
@@ -28,9 +29,11 @@ services:
     command: ["server", "-c", "/etc/hysteria/config.yaml"]
     depends_on:
       - mtproxy
-    networks:
-      - proxy-net
+    network_mode: host
+EOF
 
-networks:
-  proxy-net:
-    driver: bridge
+docker compose down
+export SECRET=a69bdd6da811f43ea4b1be5822fddb0d
+docker compose up -d
+docker compose ps
+docker compose logs --tail 20

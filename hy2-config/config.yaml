@@ -16,3 +16,6 @@ bandwidth:
 transport:
   udp:
     hopInterval: 30s
+tcpForwarding:
+  - listen: 127.0.0.1:8443
+    remote: mtproxy:443
