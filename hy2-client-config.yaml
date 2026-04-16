@@ -3,6 +3,9 @@ auth: CHANGE_ME_HY2_PASSWORD
 tls:
   sni: your.domain.com
   insecure: false
+transport:
+  udp:
+    hopInterval: 30s
 tcpForwarding:
   - listen: 127.0.0.1:8443
     remote: mtproxy:443

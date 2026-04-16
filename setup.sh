@@ -11,18 +11,27 @@ cd $BD
 mkdir -p $BD/certs $BD/mtproxy-data $BD/hy2-config
 read -p "Domain: " DOMAIN
 read -p "Hy2 pass: " HYPASS
+read -p "Server IP: " SERVER_IP
 SEC=$(openssl rand -hex 16)
 echo "Secret: $SEC"
 certbot certonly --standalone -d $DOMAIN -n --agree-tos --register-unsafely-without-email
 cp /etc/letsencrypt/live/$DOMAIN/fullchain.pem $BD/certs/
 cp /etc/letsencrypt/live/$DOMAIN/privkey.pem $BD/certs/
 sed -i "s|CHANGE_ME_HY2_PASSWORD|$HYPASS|g" $BD/hy2-config/config.yaml
-sed -i "s|CHANGE_ME_SECRET|$SEC|g" $BD/docker-compose.yml
+sed -i "s|CHANGE_ME_HY2_PASSWORD|$HYPASS|g" $BD/hy2-client-config.yaml
+sed -i "s|YOUR_SERVER_IP|$SERVER_IP|g" $BD/hy2-client-config.yaml
+sed -i "s|your.domain.com|$DOMAIN|g" $BD/hy2-client-config.yaml
 cd $BD
+export SECRET=$SEC
 docker compose up -d
 echo "===== Setup Complete ====="
 echo "Domain: $DOMAIN"
+echo "Server IP: $SERVER_IP"
 echo "Hy2 Password: $HYPASS"
 echo "MTProto Secret: $SEC"
-echo "Telegram Proxy: 127.0.0.1:8443"
-echo "MTProto Link: tg://proxy?server=127.0.0.1&port=8443&secret=$SEC"
+echo ""
+echo "=== Client Config ==="
+cat $BD/hy2-client-config.yaml
+echo ""
+echo "=== Telegram MTProto Link ==="
+echo "tg://proxy?server=127.0.0.1&port=8443&secret=$SEC"

@@ -11,8 +11,8 @@ masquerade:
     url: https://www.bing.com
     rewriteHost: true
 bandwidth:
-  up: 1 gbps
-  down: 1 gbps
-transport:
-  udp:
-    hopInterval: 30s
+  up: 100 mbps
+  down: 100 mbps
+tcpForwarding:
+  - listen: 127.0.0.1:8443
+    remote: mtproxy:443

@@ -10,8 +10,7 @@ services:
     volumes:
       - ./mtproxy-data:/data
     environment:
-      - SECRET_COUNT=1
-      - SECRET=CHANGE_ME_SECRET
+      - SECRET=${SECRET}
     networks:
       proxy-net:
         aliases:
