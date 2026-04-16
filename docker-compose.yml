@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  mtproxy:
+    image: telegrammessenger/proxy:latest
+    container_name: mtproxy
+    restart: always
+    expose:
+      - "443"
+    volumes:
+      - ./mtproxy-data:/data
+    environment:
+      - SECRET_COUNT=1
+    networks:
+      proxy-net:
+        aliases:
+          - mtproxy
+
+  hysteria2:
+    image: tobyxdd/hysteria:v2
+    container_name: hysteria2
+    restart: always
+    ports:
+      - "443:443/udp"
+    volumes:
+      - ./hy2-config:/etc/hysteria
+      - ./certs:/certs
+    command: ["server", "-c", "/etc/hysteria/config.yaml"]
+    depends_on:
+      - mtproxy
+    networks:
+      - proxy-net
+
+networks:
+  proxy-net:
+    driver: bridge

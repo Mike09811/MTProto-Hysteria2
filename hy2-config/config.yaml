@@ -1,0 +1,15 @@
+listen: :443
+tls:
+  cert: /certs/fullchain.pem
+  key: /certs/privkey.pem
+auth:
+  type: password
+  password: CHANGE_ME_HY2_PASSWORD
+masquerade:
+  type: proxy
+  proxy:
+    url: https://www.bing.com
+    rewriteHost: true
+bandwidth:
+  up: 1 gbps
+  down: 1 gbps
