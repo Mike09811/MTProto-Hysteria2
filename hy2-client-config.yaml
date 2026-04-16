@@ -8,4 +8,4 @@ transport:
     hopInterval: 30s
 tcpForwarding:
   - listen: 127.0.0.1:8443
-    remote: mtproxy:443
+    remote: 127.0.0.1:8443

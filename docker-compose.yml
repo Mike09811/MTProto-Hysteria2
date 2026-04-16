@@ -5,16 +5,13 @@ services:
     image: telegrammessenger/proxy:latest
     container_name: mtproxy
     restart: always
-    expose:
-      - "443"
+    ports:
+      - "127.0.0.1:8443:443"
     volumes:
       - ./mtproxy-data:/data
     environment:
       - SECRET=${SECRET}
-    networks:
-      proxy-net:
-        aliases:
-          - mtproxy
+    network_mode: host
 
   hysteria2:
     image: tobyxdd/hysteria:v2
@@ -28,9 +25,4 @@ services:
     command: ["server", "-c", "/etc/hysteria/config.yaml"]
     depends_on:
       - mtproxy
-    networks:
-      - proxy-net
-
-networks:
-  proxy-net:
-    driver: bridge
+    network_mode: host
