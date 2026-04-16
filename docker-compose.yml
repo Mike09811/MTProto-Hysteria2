@@ -5,8 +5,8 @@ services:
     image: telegrammessenger/proxy:latest
     container_name: mtproxy
     restart: always
-    ports:
-      - "8443:443"
+    expose:
+      - "443"
     volumes:
       - ./mtproxy-data:/data
     environment:
